@@ -23,6 +23,7 @@ helm repo add "stable" "https://charts.helm.sh/stable"
 ```bash
 
 helm install demo-mysql stable/mysql
+
 kubectl get all | grep mysql
 ```
 
@@ -31,8 +32,11 @@ kubectl get all | grep mysql
 ```bash
 
 kubectl run -i --tty ubuntu --image=ubuntu:16.04 --restart=Never -- bash -il
+
 apt-get update && apt-get install mysql-client -y
+
 kubectl get secret --namespace default demo-mysql -o jsonpath="{.data.mysql-root-password}" | base64 --decode
+
 mysql -h demo-mysql -p
 
 ```
