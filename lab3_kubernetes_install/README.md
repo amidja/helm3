@@ -30,5 +30,3 @@ sudo mv kubectl /usr/local/bin/
 kubectl version --short
 minikube status
 ```
-
-
