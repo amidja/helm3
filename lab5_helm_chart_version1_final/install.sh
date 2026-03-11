@@ -1,9 +1,21 @@
 #!/bin/bash
 echo "... Starting Install!"
 #
-kubectl create ns helm3
+REQUIRED_NAMESPACE="helm3"
+FOUND_NAMESPACE=$(kubectl get namespaces -o json | jq -r ".items[].metadata.name" | grep $REQUIRED_NAMESPACE)
+
+
+# -n -> length of the string is greater than zero
+# -z -> length of the string is zero (ie. it is empty)
+if [ -n $FOUND_NAMESPACE ]; then
+  echo Installing to $FOUND_NAMESPACE namespace.
+else
+    echo $REQUIRED_NAMESPACE namespace not found.
+    kubectl create ns $REQUIRED_NAMESPACE
+fi
+
 kubectl config set-context --current --namespace=helm3
-helm install guestbook-demo-01  chart/guestbook
+helm install guestbook-demo-01 chart/guestbook
 #
 echo "Install Completed ...!"
 #
